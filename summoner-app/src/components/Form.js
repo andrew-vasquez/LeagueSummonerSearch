@@ -4,31 +4,32 @@ import axios from "axios";
 
 
 
-const Form = ({ summonerId }) => {
+const Form = () => {
   const [summonerSearchText, setSummonerSearchText] = useState("");
   const API_KEY = process.env.REACT_APP_API_KEY;
   const [playerData, setPlayerData] = useState({});
-  //  console.log(summonerSearchText)
+  // const [playerID, setPlayerID] = useState("");
   function searchForPlayer(event) {
     event.preventDefault();
 
-    const APIUrlCall = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerSearchText}?api_key=${API_KEY}`;
+    const summonerDataURL = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerSearchText}?api_key=${API_KEY}`;
     
-   
-    axios
-      .get(APIUrlCall)
-      .then(function (response) {
-        setPlayerData(response.data);
-        console.log(playerData);
-      })
-      .catch(function (err) {
+    axios.get(summonerDataURL).then(function(res){
+      setPlayerData(res.data);
+     
+      console.log(playerData.id)
+    }).catch(function(err){
+      console.log(err);
+    }).then(function(){
+      axios.get(`https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerData.id}?api_key=${API_KEY}`).then(function(res){
+        console.log(res.data)
+      }).catch(function(err){
         console.log(err);
-      });
-      
-      summonerId = JSON.stringify(playerData)
-      
-  }
+      })
+    })
 
+    
+  }
   return (
     <div>
       <div className="">
@@ -52,7 +53,7 @@ const Form = ({ summonerId }) => {
         </form>
       </div>
       <div>
-
+      
       </div>
 
 
