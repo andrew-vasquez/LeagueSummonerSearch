@@ -1,34 +1,47 @@
 import React, { useState } from "react";
+
 import axios from "axios";
-
-
-
-
+import rankImages from "./Images";
 const Form = () => {
   const [summonerSearchText, setSummonerSearchText] = useState("");
   const API_KEY = process.env.REACT_APP_API_KEY;
   const [playerData, setPlayerData] = useState({});
-  // const [playerID, setPlayerID] = useState("");
+  const [matchData, setMatchData] = useState("");
+  const [champMastery, setChampMastery] = useState("")
   function searchForPlayer(event) {
     event.preventDefault();
 
     const summonerDataURL = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerSearchText}?api_key=${API_KEY}`;
-    
-    axios.get(summonerDataURL).then(function(res){
-      setPlayerData(res.data);
-     
-      console.log(playerData.id)
-    }).catch(function(err){
-      console.log(err);
-    }).then(function(){
-      axios.get(`https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerData.id}?api_key=${API_KEY}`).then(function(res){
-        console.log(res.data)
-      }).catch(function(err){
+
+    axios
+      .get(summonerDataURL)
+      .then(function (res) {
+        setPlayerData(res.data);
+
+        // console.log(playerData.id);
+      })
+      .catch(function (err) {
         console.log(err);
       })
-    })
-
-    
+      .then(function () {
+        axios
+          .get(
+            `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerData.id}?api_key=${API_KEY}`
+          )
+          .then(function (res) {
+            setMatchData(res.data[0]);
+            console.log(matchData);
+          })
+          .catch(function (err) {
+            console.log(err);
+          });
+      }).then(function(){
+        axios.get(`https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${playerData.id}?api_key=${API_KEY}`)
+      }).then(function(res){
+        setChampMastery(res)
+      }).catch(function (err){
+        console.log(err);
+      })
   }
   return (
     <div>
@@ -53,12 +66,11 @@ const Form = () => {
         </form>
       </div>
       <div>
-      
+        
       </div>
-
-
     </div>
   );
 };
+
 
 export default Form;
