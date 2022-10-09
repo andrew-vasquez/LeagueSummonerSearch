@@ -18,12 +18,11 @@ function App() {
              <h1 className="text-white text-3xl pl-8 font-bold mb-5 md:text-4xl md:pl-4">
               Type your Summoner Name to get stats!
             </h1>
-            <img className="mx-auto md:pr-16" src={logo} alt="Teemo Logo" />
+            <img className="mx-auto " src={logo} alt="Teemo Logo" />
             <Form />
           </div>
         </div>
-        <div className="">
-        </div>
+        
       </main>
     </div>
   );
