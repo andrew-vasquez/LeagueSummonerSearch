@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import axios from "axios";
 import rankImages from "./Images";
 const Form = () => {
@@ -8,6 +7,7 @@ const Form = () => {
   const [playerData, setPlayerData] = useState({});
   const [matchData, setMatchData] = useState("");
   const [champMastery, setChampMastery] = useState("")
+  const [hidden, setHidden] = useState(true);
   function searchForPlayer(event) {
     event.preventDefault();
 
@@ -43,14 +43,16 @@ const Form = () => {
         console.log(err);
       })
   }
+ 
   return (
     <div>
-      <div className="">
+      <div id="formDisplay">
         <form
           id="formSubmission"
           className="mt-4 px-6 md:pl-16"
           onSubmit={(e) => searchForPlayer(e)}
-        >
+        > 
+
           <input
             type="text"
             placeholder="Summoner Name"
@@ -65,9 +67,20 @@ const Form = () => {
           </button>
         </form>
       </div>
-      <div>
-        
+      <div id="summonerProfile" className="container mt-20 mx-auto flex text-white font-sans">
+        <div id="ProfileIconLevel">
+        <img src="http://ddragon.leagueoflegends.com/cdn/12.19.1/img/profileicon/685.png" alt="Profile Icon" className="w-24 rounded-3xl ml-4 md:w-32 " />
+        <div id="Level" className="-mt-3 h-5 md:-mt-4">
+        <p className="ml-10  border-solid rounded-3xl bg-sumLevelBackground inline-block px-2 leading-5 md:ml-16 md:text-lg">417</p>
+        </div>
+        </div>
+        <span className="text-4xl pl-8 pt-6 md:text-5xl">Allials</span>
+        <img src="" alt="" />
       </div>
+        <div id="championInfo" className="block break-all pt-10">
+          <h2 className="text-2xl text-white text-center md:text-left md:text-4xl">Champion Info</h2>
+          <img src="http://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/Aatrox.png" alt="champion" className="ml-4 pt-8" />
+        </div>
     </div>
   );
 };

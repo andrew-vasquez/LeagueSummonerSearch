@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    background-color: #1C1C1F;
+}
+
+#sumLevel{
+    background-color: rgb(32, 45, 55)
+}
