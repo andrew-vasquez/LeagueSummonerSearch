@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useRef} from "react";
 import axios from "axios";
 import { rankImages, masteryImages } from "./Images";
-const Form = () => {
+import { ref } from "../App";
+
+
+function Form() {
   const [summonerSearchText, setSummonerSearchText] = useState("");
   const API_KEY = process.env.REACT_APP_API_KEY;
   const [playerData, setPlayerData] = useState({});
   const [matchData, setMatchData] = useState("");
   const [champMastery, setChampMastery] = useState("");
-  const [hidden, setHidden] = useState(true);
+  const formRef = useRef(null);
+  const resultsRef = useRef(null)
+  
+
+  
   function searchForPlayer(event) {
     event.preventDefault();
 
     const summonerDataURL = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerSearchText}?api_key=${API_KEY}`;
+
+    
 
     axios
       .get(summonerDataURL)
@@ -51,7 +60,7 @@ const Form = () => {
 
   return (
     <div>
-      <div id="formDisplay">
+      <div ref={formRef} id="formDisplay">
         <form
           id="formSubmission"
           className="mt-4 px-6 text-center"
@@ -62,6 +71,7 @@ const Form = () => {
             placeholder="Summoner Name"
             className="w-full md:w-4/5 border-2 bordercolor-gray-200 rounded p-3 text-gray-dark mr-2 focus:outline-none mb-5"
             onChange={(e) => setSummonerSearchText(e.target.value)}
+         
           ></input>
           <button
             className="bg-red-500 rounded w-full md:w-4/5  text-white py-3 md:px-4 mt-3 hover:bg-gray-600"
@@ -71,7 +81,7 @@ const Form = () => {
           </button>
         </form>
       </div>
-      <div
+      <div ref={resultsRef}
         id="summonerProfile" // SUMMONER LEVEL, ICON, AND NAME
         className="container mt-20 mx-auto flex text-white font-sans"
       >
@@ -89,14 +99,14 @@ const Form = () => {
         </div>
         <span className="text-4xl pl-8 pt-6 md:text-5xl">Allials</span>
       </div>
-      <section id="rankedStats" className="text-white ">
+      <section ref={resultsRef} id="rankedStats" className="text-white ">
         {/* SUMMONER RANKED STATS */}
         <h2 className="text-center text-3xl  md:text-5xl md:ml-4 pt-8 md:pt-10">
           Ranked Season Stats
         </h2>
         <div className="grid grid-cols-2 gap-10 mx-auto text-center pt-8">
           <div className="">
-            <h4 className="text-lg ml-16">Ranked Solo/Duo</h4>
+            <h4 className="text-lg ml-16 font-bold">Ranked Solo/Duo</h4>
             <div className="pt-6 flex align-text-top">
             <img src={rankImages.Platinum} alt="" className="w-24 place-content-start"/>
               <p className="text-base md:pl-6 md:mt-8 ">Platinum 4 50LP</p>
@@ -104,7 +114,7 @@ const Form = () => {
             </div>
           </div>
           <div>
-          <h4 className="text-lg ml-16">Ranked Solo/Duo</h4>
+          <h4 className="text-lg ml-16 font-bold">Ranked Flex</h4>
           <div className="pt-6 flex align-text-top">
             <img src={rankImages.Platinum} alt="" className="w-24 place-content-start"/>
               <p className="text-base md:pl-6 md:mt-8 ">Platinum 4 50LP</p>
@@ -114,11 +124,11 @@ const Form = () => {
         </div>
       </section>
       <span>
-        <h2 className="text-3xl text-white text-center  md:text-5xl md:ml-10 pt-8 md:pt-14">
+        <h2 ref={resultsRef} className="text-3xl text-white text-center  md:text-5xl md:ml-10 pt-8 md:pt-14">
           Top 6 Highest Mastery Champions
         </h2>
       </span>
-      <section id="championInfo">
+      <section ref={resultsRef} id="championInfo">
         {" "}
         {/*CHAMP MASTERY INFO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/}
         <div className="pt-10 grid gap-12 grid-cols-2 md:grid-cols-3 items-center ml-12 justify-center">
