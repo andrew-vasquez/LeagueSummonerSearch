@@ -18,20 +18,20 @@ function Form() {
     const getChampMasteryURL = `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${playerData.id}/top?api_key=${API_KEY}`;
       // formRef.current.classList.add('hidden')
     // resultsRef.current.classList.remove('hidden')
-     async function getPlayerData(){
-        await axios.get(getSummonerURL)
-        .then(res => {
-          setPlayerData(res.data)
-          console.log(playerData.id);
-        }).catch (err => {
-          console.log(err);
-        }).then(await axios.get(getLeagueURL)
-        .then(res => {
-          console.log(res.data);
-        }))
+    //  async function getPlayerData(){
+    //     await axios.get(getSummonerURL)
+    //     .then(res => {
+    //       setPlayerData(res.data)
+    //       console.log(playerData.id);
+    //     }).catch (err => {
+    //       console.log(err);
+    //     }).then(await axios.get(getLeagueURL)
+    //     .then(res => {
+    //       console.log(res.data);
+    //     }))
       
-     }
-      getPlayerData()
+    //  }
+    //   getPlayerData()
 
    
     //  
