@@ -11,7 +11,7 @@ function App () {
       <Header />
       <main>
         <div className="flex flex-col-reverse align-middle justify-center m-auto md:max-w-4xl md:pt-16">
-          <div id className="w-full md:first-letter:w-2/3 mr-24 md:pl-16">
+          <div className="w-full md:first-letter:w-2/3 mr-24 md:pl-16">
               
               <img className="mx-auto " src={logo} alt="Teemo Logo" />
             <Form />
