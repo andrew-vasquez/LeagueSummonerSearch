@@ -18,4 +18,9 @@ export const masteryImages = {
     Mastery7: require('./imgs/Mastery7.png')
 };
 
+export const companyLogos = {
+    gitHubSmall: require('./imgs/gitHubSmall.png'),
+    gitHubBig: require('./imgs/gitHubBig.png'),
+    linkedinLogo: require('./imgs/LinkedinLogo.png')
+}
 
