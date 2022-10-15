@@ -8,33 +8,58 @@ function Form() {
   const [rankedSolo, setRankedSolo] = useState({});
   const [rankedFlex, setRankedFlex] = useState({});
   const [champMastery, setChampMastery] = useState({});
+  const [loading, setLoading] = useState(false);
   const formRef = useRef(null);
   const resultsRef = useRef(null);  
   const searchTextRef = useRef();
-  const idRef = useRef(null)
   // const getChampMasteryURL = `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${userId}/top?api_key=${API_KEY}`;
   
+  const getRankedData = async () => {
+    try {
+        await axios({
+          method: 'GET',
+          url: `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerData.id}?api_key=${API_KEY}`,
+          timeout: 3000
+        }) 
+        .then((res) =>{
+          console.log(res.data);
+        })
+      } catch(err) {
+        console.error("Error with 2nd Call", err);
+      }
+      } 
+
+
+
+
   const getPlayerId = e => {
     e.preventDefault()
     const getSummonerURL = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${searchTextRef.current.value}?api_key=${API_KEY}`;
     // formRef.current.classList.add('hidden')
     // resultsRef.current.classList.remove('hidden')
-     axios.get(getSummonerURL)
-     .then(res => {
-      console.log(res.data);
-      setPlayerData(res.data)
-    }).catch(err => err)
-    
-  // const getRankedData = () => {
-  //    axios.get(`https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerData.id}?api_key=${API_KEY}`)
-  //    .then(res => {
-  //     console.log(res);
-  //    })
-  // }
-}
+    axios({
+      method: "GET",
+      url: (getSummonerURL)
+    })
+      .then((res) => {
+        console.log(res.data);
+        setPlayerData(res.data)
+      })
+      .then((data) =>{
+        console.log("Finished First Call", data);
+      })
+      .catch ((err) => {
+        console.error("Error with API Call", err)
+      })
+      .then(getRankedData)
+      
+  }
+  
+  
+
+
   return (
     <div>
-      <div ref={idRef} className="hidden">{JSON.stringify(playerData) ? <>{playerData.id}</> : <>nothing</>}</div>
       <div ref={formRef}>
         <form 
           className="mt-4 px-6 text-center"
@@ -51,7 +76,7 @@ function Form() {
             className="bg-red-500 rounded w-full md:w-4/5  text-white py-3 md:px-4 mt-3 hover:bg-gray-600"
             type="submit"
           >
-            Search
+            {loading ? <>Loading...</> : <>Search</>}
           </button>
         </form>
       </div>
