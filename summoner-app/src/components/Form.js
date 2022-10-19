@@ -1,74 +1,73 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { rankImages, masteryImages } from "./Images";
 
 function Form() {
   const API_KEY = process.env.REACT_APP_API_KEY;
-  const [playerData, setPlayerData] = useState({});
+  const [playerData, setPlayerData] = useState(null);
   const [rankedSolo, setRankedSolo] = useState({});
   const [rankedFlex, setRankedFlex] = useState({});
   const [champMastery, setChampMastery] = useState({});
   const [loading, setLoading] = useState(false);
+  const [playerId, setPlayerId] = useState("")
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const formRef = useRef(null);
-  const resultsRef = useRef(null);  
+  const resultsRef = useRef(null);
   const searchTextRef = useRef();
-  // const getChampMasteryURL = `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${userId}/top?api_key=${API_KEY}`;
+
   
-  const getRankedData = async () => {
-    try {
-        await axios({
-          method: 'GET',
-          url: `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerData.id}?api_key=${API_KEY}`,
-          timeout: 3000
-        }) 
-        .then((res) =>{
-          console.log(res.data);
-        })
-      } catch(err) {
-        console.error("Error with 2nd Call", err);
-      }
-      } 
-
-
-
-
-  const getPlayerId = e => {
-    e.preventDefault()
-    const getSummonerURL = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${searchTextRef.current.value}?api_key=${API_KEY}`;
-    // formRef.current.classList.add('hidden')
-    // resultsRef.current.classList.remove('hidden')
-    axios({
-      method: "GET",
-      url: (getSummonerURL)
-    })
-      .then((res) => {
-        console.log(res.data);
-        setPlayerData(res.data)
-      })
-      .then((data) =>{
-        console.log("Finished First Call", data);
-      })
-      .catch ((err) => {
-        console.error("Error with API Call", err)
-      })
-      .then(getRankedData)
-      
+  
+  //  formRef.current.classList.add('hidden')
+  // resultsRef.current.classList.remove('hidden')
+  
+  
+  
+ 
+  const getChampMastery = async () => {
+    const res = await axios.get(`https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${playerId}/top?count=6&api_key=${API_KEY}`)
+    console.log(res.data);
   }
-  
-  
 
+
+  const getPlayerId = async () => {
+    const res  = await axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${searchTextRef.current.value}?api_key=${API_KEY}`);
+    setPlayerData(res.data)
+    setPlayerId(res.data.id)
+  };
+
+  const getPlayerLeague = async () =>{
+    const res = await axios.get(`https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerId}?api_key=${API_KEY}`);
+    console.log(res.data);
+  }
+
+  useEffect(() => {
+    if(isSubmitted === true){
+      getPlayerId();
+      getPlayerLeague();
+      getChampMastery();
+      setIsSubmitted(false);
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playerData, playerId]);
+
+
+ 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitted(true)
+    getPlayerId();
+  }
 
   return (
     <div>
       <div ref={formRef}>
-        <form 
-          className="mt-4 px-6 text-center"
-          onSubmit={getPlayerId}
-        >
-          <input 
+       
+        <form className="mt-4 px-6 text-center"  onSubmit={handleSubmit} >
+          <input
             type="text"
+          //  {...register("summoner")}
             ref={searchTextRef}
-            // onSubmit={getRankedData}
             placeholder="Summoner Name"
             className=" text-center w-full md:w-4/5 border-2 bordercolor-gray-200 rounded p-3 text-gray-dark mr-2 focus:outline-none mb-5 md:hover:bg-gray-300"
           ></input>
@@ -79,6 +78,7 @@ function Form() {
             {loading ? <>Loading...</> : <>Search</>}
           </button>
         </form>
+       
       </div>
       <div ref={resultsRef} className="hidden">
         <div
@@ -86,40 +86,49 @@ function Form() {
           className="container mt-20 mx-auto flex text-white font-sans"
         >
           <div className="pl-44">
-           {JSON.stringify(playerData) !== '{}' ? 
-           <>
-           <img
-             src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/profileicon/${playerData.profileIconId}.png`}
-             alt="Profile Icon"
-             className="w-24 rounded-3xl ml-4 md:w-32 "
-             ></img>
-           </>
-          :
-          <>
-          <p>No Info</p>
-          </>
-          }
-            
+            {playerData ? (
+              <>
+                <img
+                  src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/profileicon/${playerData.profileIconId}.png`}
+                  alt="Profile Icon"
+                  className="w-24 rounded-3xl ml-4 md:w-32 "
+                ></img>
+              </>
+            ) : (
+              <>
+                <p>No Info</p>
+              </>
+            )}
+
             <div id="Level" className="-mt-3 h-5 md:-mt-4">
-                {JSON.stringify(playerData) !== '{}' ?
-               <>
-              <p className="ml-10  border-solid rounded-3xl bg-sumLevelBackground inline-block px-2 leading-5 md:ml-14 md:text-lg">
-              {playerData.summonerLevel}
-              </p>
-               </> 
-               :
-               <><p className="ml-10  border-solid rounded-3xl bg-sumLevelBackground inline-block px-2 leading-5 md:ml-14 md:text-lg">
-                ???</p></>
-              }
+              {playerData ? (
+                <>
+                  <p className="ml-10  border-solid rounded-3xl bg-sumLevelBackground inline-block px-2 leading-5 md:ml-14 md:text-lg">
+                    {playerData.summonerLevel}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="ml-10  border-solid rounded-3xl bg-sumLevelBackground inline-block px-2 leading-5 md:ml-14 md:text-lg">
+                    ???
+                  </p>
+                </>
+              )}
             </div>
           </div>
-         {JSON.stringify(playerData) !== '{}'?
-         <>
-          <span className="text-4xl pl-8 pt-6 md:text-5xl">{playerData.name}</span>
-         </>
-         :
-         <><span className="text-4xl pl-8 pt-6 md:text-5xl">No Summoner Found</span></>
-        }
+          {playerData ? (
+            <>
+              <span className="text-4xl pl-8 pt-6 md:text-5xl">
+                {playerData.name}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="text-4xl pl-8 pt-6 md:text-5xl">
+                No Summoner Found
+              </span>
+            </>
+          )}
         </div>
         <section className="text-white ">
           {/* SUMMONER RANKED STATS */}
@@ -305,6 +314,6 @@ function Form() {
       </div>
     </div>
   );
-} 
+}
 
 export default Form;
