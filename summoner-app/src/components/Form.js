@@ -25,7 +25,7 @@ function Form() {
  
   const getChampMastery = async () => {
     const res = await axios.get(`https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${playerId}/top?count=6&api_key=${API_KEY}`)
-    console.log(res.data);
+    // console.log(res.data);
   }
 
 
@@ -37,7 +37,7 @@ function Form() {
 
   const getPlayerLeague = async () =>{
     const res = await axios.get(`https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerId}?api_key=${API_KEY}`);
-    console.log(res.data);
+    // console.log(res.data);
   }
 
   useEffect(() => {
