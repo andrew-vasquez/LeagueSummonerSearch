@@ -1,6 +1,7 @@
 
 
 export const rankImages = {
+    Unranked: require('./imgs/Unranked.png'),
     Iron: require('./imgs/Iron.png'),
     Bronze: require('./imgs/Bronze.png'),
     Silver: require('./imgs/Silver.png'),
@@ -13,6 +14,10 @@ export const rankImages = {
 };
 
 export const masteryImages = {
+    Mastery1: require('./imgs/Mastery1.png'),
+    Mastery2: require('./imgs/Mastery2.png'),
+    Mastery3: require('./imgs/Mastery3.png'),
+    Mastery4: require('./imgs/Mastery4.png'),
     Mastery5: require('./imgs/Mastery5.png'),
     Mastery6: require('./imgs/Mastery6.png'),
     Mastery7: require('./imgs/Mastery7.png')
