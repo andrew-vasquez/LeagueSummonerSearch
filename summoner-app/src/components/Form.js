@@ -27,6 +27,24 @@ function Form() {
     return championId[id];
   };
 
+    const masteryPoints = (points) =>{
+       let stringedPoints = points.toString();
+      
+      if(stringedPoints.length === 6){
+        return stringedPoints.slice(0, 3) + "," + stringedPoints.slice(3);
+      } else if (stringedPoints.length === 4){
+        return stringedPoints.slice(0, 1) + "," + stringedPoints.slice(1);
+      } else if (stringedPoints.length === 5){
+        return stringedPoints.slice(0, 2) + "," + stringedPoints.slice(1);
+      } else if (stringedPoints.length === 7){
+        return stringedPoints.slice(0, 1) + "." + stringedPoints.slice(1,2) + " Mill.";
+      } else if (stringedPoints.length === 8){
+        return stringedPoints.slice(0, 2) + "." + stringedPoints.slice(2,3) + " Mill.";
+      } else return "No Data";
+
+    }
+
+
   const lastPlayed = (unixDate) => {
     return new Date(unixDate).toLocaleString("en-us", {
       day: "2-digit",
@@ -415,7 +433,7 @@ function Form() {
           {" "}
           {/*CHAMP MASTERY INFO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/}
           {champMastery !== null ? (
-            <div className="pt-10 pb-16 grid gap-12 grid-cols-2 md:grid-cols-3 items-center ml-12 justify-center">
+            <div className="pt-10 pb-16 pr-12 grid gap-12 grid-cols-2 md:grid-cols-3 items-center ml-12 justify-center md:ml-24">
               <div className="text-white flex ">
                 {" "}
                 {/*CHAMPION 1!*/}
@@ -429,7 +447,7 @@ function Form() {
                     className="w-36"
                   />
                   <p className="border-solid rounded-3xl inline-block bg-sumLevelBackground px-2 ml-5 md:text-lg">
-                    {champ1.championPoints}
+                    {masteryPoints(champ1.championPoints)}
                   </p>
                 </div>
                 <div className=" pl-2  place-self-center mb-10">
@@ -454,7 +472,7 @@ function Form() {
                     className="w-36"
                   />
                   <p className="border-solid rounded-3xl inline-block bg-sumLevelBackground px-2 ml-5 md:text-lg">
-                    {champ2.championPoints}
+                  {masteryPoints(champ2.championPoints)}
                   </p>
                 </div>
                 <div className=" pl-2  place-self-center mb-10">
@@ -479,7 +497,7 @@ function Form() {
                     className="w-36"
                   />
                   <p className="border-solid rounded-3xl inline-block bg-sumLevelBackground px-2 ml-5 md:text-lg">
-                    {champ3.championPoints}
+                  {masteryPoints(champ3.championPoints)}
                   </p>
                 </div>
                 <div className=" pl-2  place-self-center mb-10">
@@ -504,7 +522,7 @@ function Form() {
                     className="w-36"
                   />
                   <p className="border-solid rounded-3xl inline-block bg-sumLevelBackground px-2 ml-5 md:text-lg">
-                    {champ4.championPoints}
+                  {masteryPoints(champ4.championPoints)}
                   </p>
                 </div>
                 <div className=" pl-2  place-self-center mb-10">
@@ -529,7 +547,7 @@ function Form() {
                     className="w-36"
                   />
                   <p className="border-solid rounded-3xl inline-block bg-sumLevelBackground px-2 ml-5 md:text-lg">
-                    {champ5.championPoints}
+                  {masteryPoints(champ5.championPoints)}
                   </p>
                 </div>
                 <div className=" pl-2  place-self-center mb-10">
@@ -554,7 +572,7 @@ function Form() {
                     className="w-36"
                   />
                   <p className="border-solid rounded-3xl inline-block bg-sumLevelBackground px-2 ml-5 md:text-lg">
-                    {champ6.championPoints}
+                  {masteryPoints(champ6.championPoints)}
                   </p>
                 </div>
                 <div className=" pl-2  place-self-center mb-10">
