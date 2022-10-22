@@ -67,6 +67,8 @@ const lastPlayed = (unixDate) =>{
   }
     else if (tier === "GOLD"){
     return <img src={rankImages.Gold} alt=""  className="pb-5 w-20 place-self-center md:place-content-start"/>
+  } else if (tier === "SILVER"){
+    return <img src={rankImages.Silver} alt=""  className="pb-5 w-20 place-self-center md:place-content-start"/>
   }
     else if (tier === "IRON"){
     return <img src={rankImages.Iron} alt=""  className="pb-5 w-20 place-self-center md:place-content-start"/>
@@ -161,7 +163,7 @@ const lastPlayed = (unixDate) =>{
           // SUMMONER LEVEL, ICON, AND NAME
           className="container mt-20 mx-auto flex text-white font-sans"
         >
-          <div className="pl-44">
+          <div className="pl-10 md:pl-44">
             {playerData ? (
               <>
                 <img
@@ -213,7 +215,7 @@ const lastPlayed = (unixDate) =>{
           </h2>
           <div className="grid grid-cols-2 gap-10 mx-auto text-center pt-8">
             <div className="">
-              <h4 className="text-lg ml-16 font-bold">Ranked Solo/Duo</h4>
+              <h4 className="text-lg  ml-11 md:ml-16 font-bold">Ranked Solo/Duo</h4>
               <div className="pl-12 pt-6 flex flex-col md:flex-row align-text-top">
                 {queue1.queueType === "RANKED_SOLO_5x5" ? (
                   <>
@@ -234,7 +236,7 @@ const lastPlayed = (unixDate) =>{
               </div>
             </div>
             <div className="pr-8">
-              <h4 className="text-lg ml-16 font-bold">Ranked Flex</h4>
+              <h4 className="text-lg  ml-11 md:ml-16 font-bold">Ranked Flex</h4>
               <div className="  pl-12 pt-6 flex flex-col md:flex-row align-text-top">
                 {queue1.queueType === "RANKED_FLEX_SR" ? (
                   <>
@@ -243,14 +245,21 @@ const lastPlayed = (unixDate) =>{
                  <p className="text-sm md:text-base md:pl-4 md:mt-8">Wins: {queue1.wins}</p>
                  <p className="text-sm md:text-base md:pl-4 md:mt-8">Losses: {queue1.losses}</p>
                   </>
-                ): (
+                ): queue2 === undefined ? (
+                  <>
+                  <img src={rankImages.Unranked} alt=""  className="pb-5 w-20 place-self-center md:place-content-start"/>
+                  <p className="text-sm md:text-base md:pl-6 md:mt-8 ">No Data</p>
+                  <p className="text-sm md:text-base md:pl-4 md:mt-8">No Data</p>
+                  <p className="text-sm md:text-base md:pl-4 md:mt-8">No Data</p>
+                  </>
+                ) : (
                   <>
                   {soloImg(queue2.tier)}
                   <p className="text-sm md:text-base md:pl-6 md:mt-8 ">{queue2.tier} {queue2.rank} {queue2.leaguePoints}LP</p>
                   <p className="text-sm md:text-base md:pl-4 md:mt-8">Wins: {queue2.wins}</p>
                   <p className="text-sm md:text-base md:pl-4 md:mt-8">Losses: {queue2.losses}</p>
                   </>
-                )
+                ) 
               }
                
               </div>
