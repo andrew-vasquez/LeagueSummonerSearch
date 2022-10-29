@@ -132,7 +132,7 @@ export const championId = {
   18: "Tristana",
   48: "Trundle",
   23: "Tryndamere",
-  4: "Twisted Fate",
+  4: "TwistedFate",
   29: "Twitch",
   77: "Udyr",
   6: "Urgot",

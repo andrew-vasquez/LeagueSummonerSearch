@@ -29,3 +29,4 @@ export const companyLogos = {
     linkedinLogo: require('./imgs/LinkedinLogo.png')
 }
 
+
