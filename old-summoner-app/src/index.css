@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+#sumLevel{
+    background-color: rgb(32, 45, 55)
+}
+

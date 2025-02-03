@@ -1,10 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+@theme {
+  --font-display: 'Poppins', sans-serif;
 
+  --breakpoint-3xl: 2000px;
 
-#sumLevel{
-    background-color: rgb(32, 45, 55)
+  --mainBackground: oklch(22.77 0.0057 285.93);
+  --sumLevelBackground: oklch(28.98 0.0255 241.82);
+  --bgWhite: oklch(61.88 0.0914 193.16)
 }
-
