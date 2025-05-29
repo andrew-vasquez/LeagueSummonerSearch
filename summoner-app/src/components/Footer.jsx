@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="bg-red-500 dark:bg-sky-700 p-3 w-full flex ">
       <a
         className="mx-auto"
-        href="https://github.com/Allials"
+        href="https://github.com/andrew-vasquez"
         target="_blank"
         rel="noreferrer noopener"
       >
